@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By 
 from scrape_players import  get_player, write_csv, append_csv
-
+import logging
 # Path to the ChromeDriver
 CHROMEDRIVER_PATH = "./driver/chromedriver.exe"  # Change this to the actual path
 
@@ -71,12 +71,18 @@ for index, div in enumerate(div_elements):
                          # Find the image inside the anchor tag
                        team_personal_img_element = div_team_tab.find_element(By.TAG_NAME, "img")  
                        logo_img_url = team_personal_img_element.get_attribute("src")  
-                       leader_coach =  div_team_tab.find_elements(By.CSS_SELECTOR, "h5.team-mgmt-data")
-                       leader_text = [h5.text for h5 in leader_coach  if h5.text]
-                       if leader_text:
-                           head_coach = leader_text[0]
-                           manager = leader_text[1] 
- 
+                       # Get the class attribute of the <div>
+                       
+
+                       # Define the class to search for (modify as needed)
+                       target_class = "team-mgmt-data"  # Replace with the actual class name
+
+                       # Find all <h5> elements with the target class
+                       h5_elements = div_team_tab.find_elements(By.CSS_SELECTOR, f"h5.{target_class}")
+                       # Extract and print text from each matching <h5>
+                       if h5_elements:
+                          head_coach = h5_elements[0].get_attribute("textContent").strip() 
+                          manager = h5_elements[1].get_attribute("textContent").strip()                          
                      # Locate the div using CLASS_NAME
                     team_profile = driver.find_element(By.CLASS_NAME, "team-profile-data") 
                     team_name = team_profile.find_elements(By.TAG_NAME, "h3")
@@ -87,8 +93,8 @@ for index, div in enumerate(div_elements):
                     print(player) 
                     # Write parent data 
                     append_csv(parent_file, [team_header[0],head_coach,manager,href,logo_img_url])
-                except:
-                    team_elements = "N/A"
+                except BaseException:
+                    logging.exception("An exception was thrown!")
  
 
                 # Close the second tab and switch back to the first page
