@@ -72,10 +72,10 @@ for index, div in enumerate(div_elements):
                        team_personal_img_element = div_team_tab.find_element(By.TAG_NAME, "img")  
                        logo_img_url = team_personal_img_element.get_attribute("src")  
                        leader_coach =  div_team_tab.find_elements(By.CSS_SELECTOR, "h5.team-mgmt-data")
-                       
-                       if len(leader_coach) > 1:
-                           head_coach = leader_coach[0].text
-                           manager = leader_coach[1].text 
+                       leader_text = [h5.text for h5 in leader_coach  if h5.text]
+                       if leader_text:
+                           head_coach = leader_text[0]
+                           manager = leader_text[1] 
  
                      # Locate the div using CLASS_NAME
                     team_profile = driver.find_element(By.CLASS_NAME, "team-profile-data") 
