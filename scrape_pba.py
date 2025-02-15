@@ -89,7 +89,7 @@ for index, div in enumerate(div_elements):
                     team_header = [h3.text for h3 in team_name] 
                      
 
-                    player = get_player(driver,child_file)
+                    player = get_player(driver,child_file,team_header[0])
                     print(player) 
                     # Write parent data 
                     append_csv(parent_file, [team_header[0],head_coach,manager,href,logo_img_url])
