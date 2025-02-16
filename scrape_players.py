@@ -46,8 +46,8 @@ def get_player(driver,child_file,tmp_team):
             player_num_tmp = ""
             if player_result_tmp:
                 split_pos = player_result_tmp.split("|")  
-                position_tmp = split_pos[0].strip()
-                player_num_tmp = split_pos[1].strip()  
+                position_tmp = split_pos[1].strip()  
+                player_num_tmp = split_pos[0].strip()
 
             if href:
                 print(f"Visiting Player: {href}")
